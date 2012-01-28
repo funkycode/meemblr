@@ -4,14 +4,7 @@ import com.nokia.meego 1.0
 Page {
     id: blog_page
     tools: commonTools
-    //    property string post_title: ""
-    //    property string post_url: ""
-    //    property string post_type: ""
-    //    property string post_tags: ""
-    //    property string post_date: ""
-    //    property string post_body: ""
-
-
+    property  string blogname: ""
 
     ListModel {
         id:blogmodel
@@ -23,18 +16,26 @@ Page {
 
             blog_posts.model.clear();
             var result = JSON.parse(data);
-            title.text= result.response.blog.title;
+            blogname= result.response.blog.title;
+
             for (var i in result.response["posts"]) {
                 var output = result.response["posts"][i];
+                //                if (output.type === "text") {
+                // console.log(output.type);
 
-
+                //console.log(output.title);
                 blogmodel.append({
+
+                                     typepost: output.type,
                                      head: output.title,
                                      body: output.body,
                                      date: output.date,
+                                     quotetext: output.text,
 
                                  });
+                //                }
             }
+
         }
     }
 
@@ -45,15 +46,11 @@ Page {
         id: blog_posts
 
 
-        anchors.top:header.bottom
-        height:parent.height-commonTools.height
-        width:parent.width
+        Component {
+            id:textpost
 
 
-
-        Component{
-            id:blog_items
-            Item{
+            Rectangle {
                 height:blog_title.height+blog_post.height+blog_date.height+60
                 width: parent.width
 
@@ -99,32 +96,66 @@ Page {
 
                 }
             }
+
         }
 
 
 
-        model: blogmodel
-        delegate:blog_items
 
-
-    }
-    Rectangle{
-        id:header
-        color: "gray"
+        anchors.top:parent.top
+        height:parent.height-commonTools.height
         width:parent.width
-        height:title.height+20
+        model: blogmodel
 
-        Text{
 
-            id:title
-            text:""
-            horizontalAlignment: Text.AlignHCenter
+        delegate:
+            Loader {
+            id: displaytype
+            source: if (typepost==="text") "posts/TextPost.qml"
+                    else if(typepost==="quote") "posts/QuotePost.qml"
+                    else if(typepost==="link") "posts/LinkPost.qml"
+                    else if(typepost==="answer") "posts/AnswerPost.qml"
+                    else if(typepost==="photo") "posts/PhotoPost.qml"
+                    else if(typepost==="video") "posts/VideoPost.qml"
+                    else "posts/AudioPost.qml"
             anchors.left:parent.left
             anchors.right:parent.right
-            anchors.top:parent.top
-            font.pointSize: 30
-            anchors.margins: 10
+
+
+
         }
+
+
+
+
+        header:
+
+
+            Component{
+            id:header
+
+
+            Rectangle{
+                id:rect
+                color: "gray"
+                width:parent.width
+                height:title.height+20
+
+                Text{
+
+                    id:title
+                    text:blogname
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.left:parent.left
+                    anchors.right:parent.right
+                    //anchors.top:parent.top
+                    font.pointSize: 30
+                    anchors.margins: 10
+
+                }
+            }
+        }
+
     }
 
 

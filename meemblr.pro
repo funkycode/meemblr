@@ -32,7 +32,8 @@ CONFIG += qdeclarative-boostable
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     blog.cpp \
-    profile.cpp
+    profile.cpp \
+    xauthclient.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -45,7 +46,13 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog \
-    README
+    README \
+    qml/meemblr/PhotoPost.qml \
+    qml/meemblr/VideoPost.qml \
+    qml/meemblr/QuotePost.qml \
+    qml/meemblr/LinkPost.qml \
+    qml/meemblr/AnswerPost.qml \
+    qml/meemblr/AudioPost.qml
 
 HEADERS += \
     blog.h \

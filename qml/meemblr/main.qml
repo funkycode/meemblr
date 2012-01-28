@@ -4,27 +4,23 @@ import com.nokia.meego 1.0
 PageStackWindow {
     id: appWindow
 
-    initialPage: mainPage
+    initialPage: blog_page
 
-    MainPage {
-        id: mainPage
+    Blog {
+        id: blog_page
     }
 
     ToolBarLayout {
         id: commonTools
         visible: true
         ToolIcon {
-            platformIconId: "toolbar-view-menu"
+            platformIconId: "toolbar-refresh"
             anchors.right: (parent === undefined) ? undefined : parent.right
-            onClicked: (myMenu.status == DialogStatus.Closed) ? myMenu.open() : myMenu.close()
+            onClicked:{ blog_req.blog_request("zogg");
+
+            }
         }
     }
 
-    Menu {
-        id: myMenu
-        visualParent: pageStack
-        MenuLayout {
-            MenuItem { text: qsTr("Get data") }
-        }
-    }
+
 }

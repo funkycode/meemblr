@@ -19,7 +19,7 @@ void Profile::parser(QNetworkReply *reply)      //parsing data due to request
     QScriptValue sc;
     QScriptEngine engine;
     sc = engine.evaluate("("+ QString(response)+ ")");
-    emit profileresult(response);    //return whole json response
+    //emit profileresult(response);    //return whole json response
 
 
 
