@@ -49,7 +49,7 @@ Rectangle {
         anchors.margins: 15
         text: body
         width:parent.width
-        Image.width:parent.width
+
 //        settings.defaultFontSize : 20
 //        settings.defaultFixedFontSize :20
 
