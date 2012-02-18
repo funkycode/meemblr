@@ -1,65 +1,68 @@
-//#include "oauthclient.h"
-//#include "oauth2data.h"
-//#include <QCoreApplication>
-//#include <QDebug>
+#include <xauthclient.h>
 
-//// using namespace OAuth2PluginNS;
+#include <QCoreApplication>
+#include <QDebug>
 
-//OAuthClient::OAuthClient(const QString &clientId,
-//                         const QString &clientSecret,
-//                         QObject *parent):
-//    QObject(parent),
-//    m_clientId(clientId),
-//    m_clientSecret(clientSecret),
-//    m_identity(0),
-//    m_session(0)
-//{
-//    m_identity = SignOn::Identity::newIdentity(SignOn::IdentityInfo(), this);
-//}
 
-//OAuthClient::~OAuthClient()
-//{
-//}
+OAuthClient::OAuthClient(const QString &clientId,
+                         const QString &clientSecret,
+                         QObject *parent):
+    QObject(parent),
+    m_clientId(""),
+    m_clientSecret("key"),
+    m_identity(0),
+    m_session(0)
+{
+  m_identity = SignOn::Identity::newIdentity(SignOn::IdentityInfo(), this);
+}
 
-//void OAuthClient::authenticate()
-//{
-//    SignOn::AuthSession *m_session = m_identity->createSession("xauth");
-//    QObject::connect(m_session, SIGNAL(response(const SignOn::SessionData &)),
-//                     this, SLOT(onResponse(const SignOn::SessionData &)));
-//    QObject::connect(m_session, SIGNAL(error(const SignOn::Error &)),
-//                     this, SLOT(onError(const SignOn::Error &)));
+OAuthClient::~OAuthClient()
+{
+}
 
-//    OAuth2PluginData data;
-//    data.setHost("https://www.tumblr.com");
-//    data.setAuthPath("/oauth/access_token");
-//    data.setRedirectUri("api.tumblr.com/v2/blog/zogg.tumblr.com/followers");
-//    data.setClientId(m_clientId);
-//    data.setClientSecret(m_clientSecret);
+void OAuthClient::authenticate()
+{
 
-//    m_session->process(data, "user_agent");
-//}
+    SignOn::AuthSession *m_session = m_identity->createSession("xauth");
+    QObject::connect(m_session, SIGNAL(response(const SignOn::SessionData &)),
+                     this, SLOT(onResponse(const SignOn::SessionData &)));
+    QObject::connect(m_session, SIGNAL(error(const SignOn::Error &)),
+                     this, SLOT(onError(const SignOn::Error &)));
 
-//void OAuthClient::onResponse(const SignOn::SessionData &sessionData)
-//{
-//    OAuth2PluginTokenData response = sessionData.data<OAuth2PluginTokenData>();
+    SignOn::SessionData data;
+    data.setUiPolicy(SignOn::NoUserInteractionPolicy);
+
+    data.setRealm(QString("https://www.tumblr.com/oauth/access_token"));
+
+    data.setUserName(QString("thezogg@gmail.com"));
+
+    data.setSecret(QString(""));
+//    data.setAuthorizationEndpoint("http://www.tumblr.com/oauth/authorize");
+//    data.setRequestEndpoint("http://www.tumblr.com/oauth/request_token");
+  \
+
+
+
+    m_session->process(data, "HMAC-SHA1");
+
+
+}
+
+void OAuthClient::onResponse(const SignOn::SessionData &sessionData)
+{
+
+    qDebug() << "replay is given:";
 //    qDebug() << "Access token:" << response.AccessToken();
 //    qDebug() << "Expires in:" << response.ExpiresIn();
 
-//    QCoreApplication::quit();
-//}
 
-//void OAuthClient::onError(const SignOn::Error &error)
-//{
-//    qDebug() << "Got error:" << error.message();
+}
 
-//    QCoreApplication::quit();
-//}
-
-//int main(){
-//OAuthClient client("213156715390803",
-//                   "bf89c2d9de5e929fe5c5921e9a1f2924");
-
-//client.authenticate();
+void OAuthClient::onError(const SignOn::Error &error)
+{
+    qDebug() << "Got error:" << error.message();
 
 
-//}
+}
+
+

@@ -2,8 +2,10 @@
 #include "profile.h"
 
 
+
 Profile::Profile(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      nam(new QNetworkAccessManager(this))
 
 
 {

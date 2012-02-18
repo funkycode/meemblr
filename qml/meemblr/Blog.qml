@@ -10,7 +10,7 @@ Page {
     Rectangle{
         width:parent.width
         height:parent.height
-        color:"lightblue"
+        color:"#9BB7DE"
         ListModel {
             id:blogmodel
         }

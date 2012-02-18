@@ -37,7 +37,10 @@ public slots:
     void parser(QNetworkReply *reply);
 
 
- private:
+
+private:
+
+   QNetworkAccessManager *nam;
 
  };
 

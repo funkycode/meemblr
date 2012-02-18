@@ -2,8 +2,9 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 
 Rectangle {
-    height:quote.height
+    height:quote.height+15
     width:blog_posts.width
+    radius:15
 
 
     Text{

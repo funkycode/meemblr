@@ -24,8 +24,12 @@ symbian:TARGET.CAPABILITY += NetworkServices
 # MOBILITY +=
 QT += network
 # Speed up launching on MeeGo/Harmattan when using applauncherd daemon
-CONFIG += qdeclarative-boostable
-
+CONFIG += qdeclarative-boostable  \
+          link_pkgconfig  \
+          mobility
+PKGCONFIG += libsignon-qt \
+             signon-plugins\
+             qdeclarative-boostable
 # Add dependency to Symbian components
 # CONFIG += qt-components
 
@@ -56,4 +60,5 @@ OTHER_FILES += \
 
 HEADERS += \
     blog.h \
-    profile.h
+    profile.h \
+    xauthclient.h
