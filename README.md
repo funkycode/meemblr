@@ -28,8 +28,10 @@ Copyrights
 	*    Settings
 	*    Add more stuff to TODO list
 ---
-developers:
- 	*   cyRUS <kornburn@gmail.com>
-	*   ZogG <thezogg@gmail.com>
-	*   niwakame <apps@indigoblack.de>
+
+#Devs
+
+ 	* cyRUS <kornburn@gmail.com>
+	* ZogG <thezogg@gmail.com>
+	* niwakame <apps@indigoblack.de>
 
