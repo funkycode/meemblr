@@ -37,13 +37,14 @@ Rectangle {
 
     }
 
-    Image{
+    AnimatedImage{
 
-            //id:
-            height: 160
+            id:photo_post
+            //height: 160
             width: 160
             smooth: true
             source:  photo
+            fillMode: Image.PreserveAspectFit
             anchors.right: parent.right
             anchors.left:parent.left
             anchors.top: photo_date.bottom

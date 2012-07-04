@@ -28,7 +28,11 @@ Page {
 
                      for (var j in result.response["posts"][i]["photos"]) {
                          var photo_sets = result.response["posts"][i]["photos"][j];
-                         console.log(photo_sets.original_size.url)
+                         if (photo_sets !== null)
+                             var photo_url = photo_sets.original_size.url;
+                         else
+                             photo_url = "";
+                         console.log(photo_sets.original_size.url);
 
 
 
@@ -43,7 +47,8 @@ Page {
                                          date: output.date,
                                          quotetext: output.text,
                                          caption: output.caption,
-                                         //photo: photo_sets.original_size.url,
+                                        // photo: (photo_sets !== null) ? photo_sets.original_size.url : "",
+                                         photo: photo_url,
 
 
                                      });
