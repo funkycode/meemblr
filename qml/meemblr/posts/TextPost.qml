@@ -4,7 +4,7 @@ import QtWebKit 1.0
 
 Rectangle {
     height:blog_title.height+blog_post.height+blog_date.height+60
-    width:blog_posts.width-14
+    //width:blog_post.width-14
     radius:15
     color: "white"
 //    border.width : 20

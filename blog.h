@@ -14,7 +14,12 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-
+#include <signon-plugins/oauth1data.h>
+#include <SignOn/Identity>
+#include <SignOn/AuthSession>
+#include <SignOn/AuthPluginInterface>
+#include <SignOn/SessionData>
+#include <SignOn/Error>
 
 class Blog : public QObject
  {
@@ -35,12 +40,16 @@ signals:
 public slots:
 
     void parser(QNetworkReply *reply);
+    void onResponse(const SignOn::SessionData &sessionData);
+    void onError(const SignOn::Error &error);
 
 
 
 private:
 
    QNetworkAccessManager *nam;
+   SignOn::Identity *m_identity;
+   SignOn::AuthSession *m_session;
 
  };
 

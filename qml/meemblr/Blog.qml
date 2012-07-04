@@ -25,10 +25,16 @@ Page {
 
                 for (var i in result.response["posts"]) {
                     var output = result.response["posts"][i];
-                    //                if (output.type === "text") {
-                    // console.log(output.type);
 
-                    //console.log(output.title);
+                     for (var j in result.response["posts"][i]["photos"]) {
+                         var photo_sets = result.response["posts"][i]["photos"][j];
+                         console.log(photo_sets.original_size.url)
+
+
+
+
+                     }
+
                     blogmodel.append({
 
                                          typepost: output.type,
@@ -36,6 +42,9 @@ Page {
                                          body: output.body,
                                          date: output.date,
                                          quotetext: output.text,
+                                         caption: output.caption,
+                                         //photo: photo_sets.original_size.url,
+
 
                                      });
                     //                }
