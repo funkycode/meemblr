@@ -1,12 +1,6 @@
 ## MeeTumblr ##
-***
-
-It's simple qml + Qt client for *harmattan* _(Nokia N9/50)_
-The work is in progress only, and maybe never finished, so get some patience
-
-***
-
-- - - - 
+    It's simple qml + Qt client for *harmattan* _(Nokia N9/50)_
+    The work is in progress only, and maybe never finished, so get some patience
 
 Copyrights
 ========
@@ -23,7 +17,6 @@ Copyrights
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-- - - - 
 
 #TODO
 	* UI components for each type of post
