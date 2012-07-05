@@ -32,7 +32,6 @@ Page {
                     if (output.type === "video") {
                         videoThumb = output.thumbnail_url;
                         videoPermalink = output.permalink_url;
-                        console.log(videoThumb)
                     }
 
                      for (var j in result.response["posts"][i]["photos"]) {
@@ -55,9 +54,8 @@ Page {
                                         // photo: (photo_sets !== null) ? photo_sets.original_size.url : "",
                                          photo: photo_url,
                                          videoThumb: videoThumb,
-                                         videoPermalink: videoPermalink
-
-
+                                         videoPermalink: videoPermalink,
+                                         tags: output.tags
                                      });
                     //                }
                 }

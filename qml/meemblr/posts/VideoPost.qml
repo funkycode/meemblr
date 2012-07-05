@@ -3,29 +3,15 @@ import com.nokia.meego 1.0
 import QtMultimediaKit 1.1
 
 BasePost {
-    height: title.height+video_thumbnail.height+video_date.height+60
+    height:title_text_field.height+video_thumbnail.height+date_text_field.height+60
 
-    Text{
-        id: title
-        text:"video"
-        font.pointSize: 20
-    }
-
-    Text{
-        id :video_date
-        wrapMode: "Wrap"
-        color: "#7e7b7b"
-        font.pointSize: 10
-        anchors.right: parent.right
-        anchors.top: title.bottom
-        anchors.margins: 5
-        text: date
-    }
+    title_text_value: title
+    date_text_value: date
 
     Image {
         id: video_thumbnail
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: video_date.bottom
+        anchors.top: title_text_field.bottom
         anchors.margins: 15
 
         width: 300
