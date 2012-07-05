@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="MeeTumblr : simple tumblr client for tumblr" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>MeeTumblr</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/funkycode/meemblr">View on GitHub</a>
+
+          <h1 id="project_title">MeeTumblr</h1>
+          <h2 id="project_tagline">simple tumblr client for tumblr</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/funkycode/meemblr/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/funkycode/meemblr/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>MeeTumblr</h3>
+
+<p>it's only draft scratch and mockup of application and it's not even close for WIP. So you would be more than welcome to help us by testing, contributing and sending patch fixes or other pull requests. We as well would appreciate any help with design and icons (please check below). In order to set the environment for developing follow Thomas(<a href="https://github.com/niwakame" class="user-mention">@niwakame</a>) 's instructions:</p>
+
+<pre><code>For developing we recommend using on-device debug or using QEMU out of QtCreator.
+1) Setting up dependencies
+    As you might be missing the single-sign-on (SSO) oauth packages in your sysroot, you should install them via the madde terminal.
+    1. Get the packaged version of the libraries here:
+        http://dl.dropbox.com/u/2336306/signon.tar.gz
+    2. Extract them to a local folder, keeping folder structure
+    3. navigate to your Madde folder (usually located in your QtSDK root)
+        cd QtSDK/Madde/bin
+    4. List your targets, remember the target name
+        ./mad list
+        Targets:
+        &lt;...&gt;
+        harmattan_10.2011.34-1_rt1.2  (installed)
+    5. set default target
+        ./mad set harmattan_10.2011.34-1_rt1.2
+    6. Install the debs, these should be the only ones missing. If unsure, try to install all debs from both folders.
+        ./mad-admin xdpkg -i /&lt;path-to-extracted-download&gt;/signon/signon-oauth2plugin/signon-oauth2plugin_0.15.3+0m7_armel.deb 
+        ./mad-admin xdpkg -i /&lt;path-to-extracted-download&gt;/signon/signon-oauth2plugin/signon-oauth2plugin-dev_0.15.3+0m7_armel.deb
+    7. Restart QtCreator
+    8. Make clean, rebuild, run qmake
+    9. Start QEMU or device debug. 
+    10. happy coding / testing !
+</code></pre>
+
+<h3>UI and Design</h3>
+
+<p>As we want to make this application as much user friendly as possible, we would be more than thankful if someone can help us with:
+*Mock-ups
+*Ideas
+*Icons
+*Graphics
+*Themes</p>
+
+<h3>Authors and Contributors</h3>
+
+<ul>
+<li>niwakame <a href="mailto:apps@indigoblack.de">apps@indigoblack.de</a>
+</li>
+<li>ZogG <a href="mailto:thezogg@gmail.com">thezogg@gmail.com</a>
+</li>
+<li>cyRUS <a href="mailto:kornburn@gmail.com">kornburn@gmail.com</a>
+</li>
+</ul><h3>Support or Contact</h3>
+
+<p>You are welcome to ask any question with above emails of the developer, but it would be nice to consider of sharing your problem, question and solution with others in order to save our time and time of people who may have same problems in future. That's why i suggest to use <a href="https://github.com/funkycode/meemblr/wiki">Wiki</a> or <a href="https://github.com/funkycode/meemblr/issues">Issue Tracker</a>.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">MeeTumblr maintained by <a href="https://github.com/funkycode">funkycode</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
