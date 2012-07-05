@@ -19,26 +19,16 @@ class Profile : public QObject
      Q_OBJECT
 
  public:
-
-
      Profile(QObject *parent = 0);
-
-
      Q_INVOKABLE void profile_request(QString nick);
-
 
 signals:
      void resultprofile(QString data);
 
 public slots:
-
-
     void parser(QNetworkReply *reply);
 
-
-
 private:
-
    QNetworkAccessManager *nam;
 
  };
