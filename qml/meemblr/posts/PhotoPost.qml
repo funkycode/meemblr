@@ -2,11 +2,11 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 
-Rectangle {
+BasePost {
     height:photo_title.height+photo_post.height+photo_date.height+60
     //width:photo_post.width-14
-    radius:15
-    color: "white"
+    //radius:15
+    //color: "white"
 //    border.width : 20
 //    border.color: "white"
 
