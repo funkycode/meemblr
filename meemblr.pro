@@ -36,7 +36,8 @@ PKGCONFIG += libsignon-qt \
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     blog.cpp \
-    profile.cpp
+    profile.cpp \
+    settings.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -59,4 +60,5 @@ OTHER_FILES += \
 
 HEADERS += \
     blog.h \
-    profile.h
+    profile.h \
+    settings.h
