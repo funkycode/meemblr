@@ -19,6 +19,16 @@ PageStackWindow {
         visible: true
 
         ToolIcon {
+            id: homeIcon
+            platformIconId: "toolbar-home"
+            anchors.left: (parent === undefined) ? undefined : parent.left
+            anchors.leftMargin: 10
+            onClicked: {
+                pageStack.pop(Qt.resolvedUrl("Blog.qml"));
+            }
+        }
+
+        ToolIcon {
             id: refreshIcon
             platformIconId: "toolbar-refresh"
             anchors.right: (parent === undefined) ? undefined : parent.right
@@ -32,7 +42,7 @@ PageStackWindow {
             id: settingsIcon
             platformIconId: "toolbar-settings"
             anchors.right: refreshIcon.left
-            anchors.rightMargin: 10
+            anchors.rightMargin: 20
             onClicked: {pageStack.push(Qt.resolvedUrl("Settings.qml"));}
         }
     }

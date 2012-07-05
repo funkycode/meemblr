@@ -55,6 +55,24 @@ Page {
                     anchors.margins: 10
                     font.pointSize: 25
                 }
+                Label {
+                    id: settings_videoplayback_label
+                    text: "Open videos in"
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 10
+                }
+                ButtonRow {
+                    id: settings_videoplayback_btnrow
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    checkedButton: btn_video_browser
+
+                    Button {
+                        id: btn_video_browser
+                        text: "Browser"
+                    }
+                }
 
                 Row {
                     anchors.left: parent.left

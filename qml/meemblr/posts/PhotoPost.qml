@@ -32,9 +32,6 @@ Rectangle {
         anchors.top: photo_title.bottom
         anchors.margins: 5
         text: date
-
-
-
     }
 
     AnimatedImage{

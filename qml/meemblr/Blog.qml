@@ -26,6 +26,15 @@ Page {
                 for (var i in result.response["posts"]) {
                     var output = result.response["posts"][i];
 
+                    var videoThumb = "";
+                    var videoPermalink = "";
+
+                    if (output.type === "video") {
+                        videoThumb = output.thumbnail_url;
+                        videoPermalink = output.permalink_url;
+                        console.log(videoThumb)
+                    }
+
                      for (var j in result.response["posts"][i]["photos"]) {
                          var photo_sets = result.response["posts"][i]["photos"][j];
                          if (photo_sets !== null)
@@ -45,6 +54,8 @@ Page {
                                          caption: output.caption,
                                         // photo: (photo_sets !== null) ? photo_sets.original_size.url : "",
                                          photo: photo_url,
+                                         videoThumb: videoThumb,
+                                         videoPermalink: videoPermalink
 
 
                                      });
