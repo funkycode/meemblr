@@ -37,7 +37,8 @@ PKGCONFIG += libsignon-qt \
 SOURCES += main.cpp \
     blog.cpp \
     profile.cpp \
-    settings.cpp
+    settings.cpp \
+    oauth.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -61,4 +62,7 @@ OTHER_FILES += \
 HEADERS += \
     blog.h \
     profile.h \
-    settings.h
+    settings.h \
+    oauth.h
+
+RESOURCES +=

@@ -95,6 +95,14 @@ Page {
                         }
                     }
                 }
+
+                Button {
+                    id: btn_oauth
+                    text: "Authenticate"
+                    onClicked: {
+                        pageStack.push(Qt.resolvedUrl("OAuth.qml"));
+                    }
+                }
             }
         }
     }

@@ -8,6 +8,7 @@
 #include <blog.h>
 #include <profile.h>
 #include <settings.h>
+#include <oauth.h>
 
 
 int main(int argc, char *argv[])
@@ -20,6 +21,8 @@ int main(int argc, char *argv[])
         Profile profile_req;
         Blog blog_req;
         Settings settings;
+        Oauth oauth;
+
 
         /* DEBUG VALUES */
         if (settings.getUsername() == "") {
@@ -31,6 +34,7 @@ int main(int argc, char *argv[])
         viewer.rootContext()->setContextProperty("profile_req",&profile_req);
         viewer.rootContext()->setContextProperty("blog_req",&blog_req);
         viewer.rootContext()->setContextProperty("settings",&settings);
+        viewer.rootContext()->setContextProperty("oauth",&oauth);
         viewer.setMainQmlFile(QLatin1String("qml/meemblr/main.qml"));
         viewer.showExpanded();
         return app.exec();

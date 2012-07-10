@@ -5,7 +5,7 @@ import QtMultimediaKit 1.1
 BasePost {
     height:title_text_field.height+video_thumbnail.height+date_text_field.height+60
 
-    title_text_value: title
+    title_text_value: caption
     date_text_value: date
 
     Image {
