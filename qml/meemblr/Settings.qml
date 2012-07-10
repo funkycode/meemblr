@@ -103,6 +103,12 @@ Page {
                         pageStack.push(Qt.resolvedUrl("OAuth.qml"));
                     }
                 }
+                Button {
+                    text: "Test Call"
+                    onClicked: {
+                        oauth.testCall("abc");
+                    }
+                }
             }
         }
     }

@@ -38,7 +38,13 @@ SOURCES += main.cpp \
     blog.cpp \
     profile.cpp \
     settings.cpp \
-    oauth.cpp
+    oauth.cpp \
+    kqoauth/kqoauthmanager.cpp \
+    kqoauth/kqoauthrequest.cpp \
+    kqoauth/kqoauthutils.cpp \
+    kqoauth/kqoauthrequest_xauth.cpp \
+    kqoauth/kqoauthrequest_1.cpp \
+    kqoauth/kqoauthauthreplyserver.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -63,6 +69,17 @@ HEADERS += \
     blog.h \
     profile.h \
     settings.h \
-    oauth.h
+    oauth.h \
+    kqoauth/kqoauthmanager.h \
+    kqoauth/kqoauthrequest.h \
+    kqoauth/kqoauthutils.h \
+    kqoauth/kqoauthrequest_xauth_p.h \
+    kqoauth/kqoauthrequest_xauth.h \
+    kqoauth/kqoauthrequest_p.h \
+    kqoauth/kqoauthrequest_1.h \
+    kqoauth/kqoauthmanager_p.h \
+    kqoauth/kqoauthglobals.h \
+    kqoauth/kqoauthauthreplyserver_p.h \
+    kqoauth/kqoauthauthreplyserver.h
 
 RESOURCES +=

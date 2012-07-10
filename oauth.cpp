@@ -72,194 +72,31 @@ void Oauth::onResponse(const SignOn::SessionData &sessionData)
 
 }
 
+void Oauth::onApiResponse(QByteArray response) {
+    qDebug() << response;
+}
+
+
 /* test function to get a profile */
-QString Oauth::testCall() {
-    /* try to get followers, as we need oauth for that */
-    QString url = "api.tumblr.com/v2/blog/niwakame.tumblr.com/followers";
-    int methodType = 0; /* get */
-    /* set up request parameters */
-    QList< QPair<QString, QString> > requestParameters;
-    requestParameters.append(qMakePair(QString("limit"), QString("5")));
+void Oauth::testCall(QString test) {
+    oauthRequest = new KQOAuthRequest;
+    oauthManager = new KQOAuthManager;
+    oauthRequest->setEnableDebugOutput(true);
 
-    QString headers = Oauth::signRequest(url, methodType, requestParameters);
-}
+    //oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.tumblr.com/v2/user/info"));
+    oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.tumblr.com/v2/blog/niwakame.tumblr.com/post"));
+    oauthRequest->setConsumerKey("KhJM28EMcP1iEeUomSnFbpwI1YmzPVEYxh1xl07Rlr5AQfbKEj");
+    oauthRequest->setConsumerSecretKey("ouPTiEiAU7mUXbkRlDZkD3FlXEAOREWyffmtVuo5bQSanf7UFb");
+    oauthRequest->setToken("");
+    oauthRequest->setTokenSecret("");
+    oauthRequest->setHttpMethod(KQOAuthRequest::POST);
 
-bool sortParameter(const QPair<QString, QString> &left, const QPair<QString, QString> &right) {
-    QString keyLeft = left.first;
-    QString valueLeft = left.second;
-    QString keyRight = right.first;
-    QString valueRight = right.second;
+    KQOAuthParameters params;
+    params.insert("type", "text");
+    params.insert("body", "This is a testpost from Meemblr. Fear us :>");
+    oauthRequest->setAdditionalParameters(params);
 
-    if(keyLeft == keyRight) {
-        return (valueLeft < valueRight);
-    } else {
-        return (keyLeft < keyRight);
-    }
-}
+    connect(oauthManager, SIGNAL(requestReady(QByteArray)), this, SLOT(onApiResponse(QByteArray)));
 
-/* Method type 0 is GET, type 1 is POST */
-QString Oauth::signRequest(QUrl url, int methodType, QList< QPair<QString, QString> > requestParameters) {
-    QString aToken = "yadda";
-    QString tSecret = "yadda";
-    QString consumerKey = "KhJM28EMcP1iEeUomSnFbpwI1YmzPVEYxh1xl07Rlr5AQfbKEj";
-    QString consumerSecret = "ouPTiEiAU7mUXbkRlDZkD3FlXEAOREWyffmtVuo5bQSanf7UFb";
-
-    QByteArray baseString;
-
-    if (methodType == 0) {
-        baseString.append("GET&");
-    } else {
-        baseString.append("POST&");
-    }
-    baseString.append(QUrl::toPercentEncoding(url.toString()));
-
-    QList< QPair<QString, QString> > baseStringParameters;
-
-    /* request parameters */
-    for (int i=0;i<requestParameters.size();++i) {
-        baseStringParameters.append(requestParameters.at(i));
-    }
-
-    /* additional parameters */
-    QList<QString> addKeys;
-    QList<QString> addValues;
-
-    QString timestamp = QString::number(QDateTime::currentDateTimeUtc().toTime_t());
-    QString nonce = QString::number(qrand());
-    addKeys.append("oauth_consumer_key");
-    addValues.append(consumerKey);
-    addKeys.append("oauth_nonce");
-    addValues.append(nonce);
-    addKeys.append("oauth_signature_method");
-    addValues.append("HMAC-SHA1");
-    addKeys.append("oauth_timestamp");
-    addValues.append(timestamp);
-    addKeys.append("oauth_version");
-    addValues.append("1.0");
-    for (int i=0; i<addKeys.size(); ++i) {
-        QPair<QString, QString> tmpPair = qMakePair(addKeys.at(i), addValues.at(i));
-        baseStringParameters.append(tmpPair);
-    }
-
-    qSort(baseStringParameters.begin(), baseStringParameters.end(), sortParameter);
-
-    baseString.append(encodedParameterList(baseStringParameters));
-
-    /* here we have everything ready and can sign the request */
-    QString secretString = QString(QUrl::toPercentEncoding(consumerSecret))+"&"+QString(QUrl::toPercentEncoding(tSecret));
-    QString signature = encodeHMACSHA1(baseString, secretString);
-    baseStringParameters.append(qMakePair(QString("oauth_key_signature"), signature));
-
-    QList<QByteArray> returnParameterList;
-    QPair<QString, QString> params;
-    QString param;
-    QString val;
-    foreach (params, baseStringParameters) {
-        param = params.first;
-        val = params.second;
-        if (param != "oauth_key_signature") {
-            val = QUrl::toPercentEncoding(val);
-        }
-        returnParameterList.append(QString(param+"=\""+val+"\"").toUtf8());
-    }
-
-    /* actual sending is done here */
-    QNetworkRequest req;
-    req.setUrl(url);
-    QByteArray authenticationHeader;
-
-    bool start = true;
-    foreach (const QByteArray header, returnParameterList) {
-        if (!start) {
-            authenticationHeader.append(", "+header);
-        } else {
-            authenticationHeader.append("OAuth "+header);
-        }
-    }
-    req.setRawHeader("Authorization",authenticationHeader);
-
-    if (methodType == 0) { /* GET */
-        QUrl fullUrl = url;
-        fullUrl.setQueryItems(requestParameters);
-        req.setUrl(fullUrl);
-    } else {
-        /* TODO: POST LATER */
-    }
-
-    QNetworkReply *reply = nam.get(req);
-    connect(nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(onApiResponse(QNetworkReply*)));
-    //connect(nam, SIGNAL(error(QNetworkReply::NetworkError *)), this, SLOT(onApiError(QNetworkReply::NetworkError *)));
-
-}
-
-void Oauth::onApiResponse(QNetworkReply *reply) {
-    qDebug() << reply->readAll();
-    reply->deleteLater();
-}
-void Oauth::onApiError(QNetworkReply::NetworkError *error) {
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-    qDebug() << "Error: " << reply->readAll();
-    reply->deleteLater();
-}
-
-
-
-QByteArray Oauth::encodedParameterList(const QList< QPair<QString, QString> > &parameters) {
-    QByteArray returnString;
-    bool start = true;
-
-    QPair<QString, QString> param;
-    foreach (param, parameters) {
-        if (!start) {
-            returnString.append("&");
-        } else {
-            start = false;
-        }
-    }
-
-    returnString.append( QUrl::toPercentEncoding(param.first) + "=" + QUrl::toPercentEncoding(param.second));
-    return QUrl::toPercentEncoding(returnString);
-}
-
-QString Oauth::encodeHMACSHA1(const QString &body, const QString &key) {
-    QByteArray key_in_bytes = key.toAscii();
-    int key_length = key_in_bytes.size();
-
-    const int blocksize = 64;
-
-    if (key_length > blocksize) {
-        QCryptographicHash hash(QCryptographicHash::Sha1);
-        hash.addData(key_in_bytes);
-        key_in_bytes = hash.result();
-    }
-
-    QByteArray ipad;
-    QByteArray opad;
-
-    ipad.fill(0, blocksize);
-    opad.fill(0, blocksize);
-
-    ipad.replace(0, key_in_bytes.length(), key_in_bytes);
-    opad.replace(0, key_in_bytes.length(), key_in_bytes);
-
-    for (int i=0; i<64; i++) {
-        ipad[i] = ipad[i] ^ 0x36;
-        opad[i] = opad[i] ^ 0x5c;
-    }
-
-    QByteArray workArray;
-    workArray.clear();
-
-    workArray.append(ipad, 64);
-    workArray.append(body.toAscii());
-
-    QByteArray sha1 = QCryptographicHash::hash(workArray, QCryptographicHash::Sha1);
-    workArray.clear();
-    workArray.append(opad, 64);
-    workArray.append(sha1);
-
-    sha1.clear();
-    sha1 = QCryptographicHash::hash(workArray, QCryptographicHash::Sha1);
-
-    return QString(sha1.toBase64());
+    oauthManager->executeRequest(oauthRequest);
 }
