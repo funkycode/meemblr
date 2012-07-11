@@ -1,9 +1,13 @@
 #include "oauth.h"
 
-Oauth::Oauth(QObject *parent) : QObject(parent)
-{
-    /* seed random generator */
-    qsrand(QTime::currentTime().msec());
+Oauth::Oauth(QObject *parent) : QObject(parent) {
+    oauthRequest = new KQOAuthRequest;
+    oauthManager = new KQOAuthManager;
+    oauthRequest->setEnableDebugOutput(true);
+}
+
+void Oauth::setSettings(Settings *settings) {
+    m_sets = settings;
 }
 
 void Oauth::startAuthentication(QString username) {
@@ -31,7 +35,6 @@ void Oauth::startAuthentication(QString username) {
     data.setRequestEndpoint("http://www.tumblr.com/oauth/request_token");
     data.setTokenEndpoint("http://www.tumblr.com/oauth/access_token");
 
-
     /* Please read this! ###############
      * these are actually our keys ! if you wish to use this code, please register your key / application at: http://www.tumblr.com/oauth/apps
     */
@@ -40,9 +43,8 @@ void Oauth::startAuthentication(QString username) {
     //data.setConsumerKey("7zSQ06s60K8PHwXYK1Hw2fTSqgQQkLzPPS14BQQjsXRvQMMWyP");
     //data.setConsumerSecret("8rRNTXMWxe6p5AYumqnZYSDDfofBehF1cjuT05w7nqMHpGy0YZ");
     /* Niwakame's keys */
-    data.setConsumerKey("KhJM28EMcP1iEeUomSnFbpwI1YmzPVEYxh1xl07Rlr5AQfbKEj");
-    data.setConsumerSecret("ouPTiEiAU7mUXbkRlDZkD3FlXEAOREWyffmtVuo5bQSanf7UFb");
-
+    data.setConsumerKey(m_sets->getConsumerKey());
+    data.setConsumerSecret(m_sets->getConsumerSecret());
 
     data.setCallback("http://www.tumblr.com/oauth/access_token");
     data.setDisplayCallback("true");
@@ -70,33 +72,62 @@ void Oauth::onResponse(const SignOn::SessionData &sessionData)
     qDebug() << "Access token: " << response.AccessToken();
     qDebug() << "Toke nSecret: " << response.TokenSecret();
 
+    m_sets->setAccessToken(response.AccessToken());
+    m_sets->setAccessTokenSecret(response.TokenSecret());
 }
 
 void Oauth::onApiResponse(QByteArray response) {
     qDebug() << response;
 }
+void Oauth::onApiError(QByteArray response) {
 
+}
 
 /* test function to get a profile */
 void Oauth::testCall(QString test) {
-    oauthRequest = new KQOAuthRequest;
-    oauthManager = new KQOAuthManager;
-    oauthRequest->setEnableDebugOutput(true);
+    oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.tumblr.com/v2/user/info"));
+    //oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.tumblr.com/v2/blog/niwakame.tumblr.com/post"));
 
-    //oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.tumblr.com/v2/user/info"));
-    oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, QUrl("http://api.tumblr.com/v2/blog/niwakame.tumblr.com/post"));
-    oauthRequest->setConsumerKey("KhJM28EMcP1iEeUomSnFbpwI1YmzPVEYxh1xl07Rlr5AQfbKEj");
-    oauthRequest->setConsumerSecretKey("ouPTiEiAU7mUXbkRlDZkD3FlXEAOREWyffmtVuo5bQSanf7UFb");
-    oauthRequest->setToken("");
-    oauthRequest->setTokenSecret("");
-    oauthRequest->setHttpMethod(KQOAuthRequest::POST);
+    oauthRequest->setConsumerKey(m_sets->getConsumerKey());
+    oauthRequest->setConsumerSecretKey(m_sets->getConsumerSecret());
+    oauthRequest->setToken(m_sets->getAccessToken());
+    oauthRequest->setTokenSecret(m_sets->getAccessTokenSecret());
+    //oauthRequest->setHttpMethod(KQOAuthRequest::POST);
 
-    KQOAuthParameters params;
+    /*KQOAuthParameters params;
     params.insert("type", "text");
     params.insert("body", "This is a testpost from Meemblr. Fear us :>");
-    oauthRequest->setAdditionalParameters(params);
+    oauthRequest->setAdditionalParameters(params);*/
 
     connect(oauthManager, SIGNAL(requestReady(QByteArray)), this, SLOT(onApiResponse(QByteArray)));
 
+    oauthManager->executeRequest(oauthRequest);
+}
+
+void Oauth::callApi(QUrl url, QList< QPair<QString, QString> > params, QString method) {
+    oauthRequest->initRequest(KQOAuthRequest::AuthorizedRequest, url);
+    oauthRequest->setConsumerKey(m_sets->getConsumerKey());
+    oauthRequest->setConsumerSecretKey(m_sets->getConsumerSecret());
+    oauthRequest->setToken(m_sets->getAccessToken());
+    oauthRequest->setTokenSecret(m_sets->getAccessTokenSecret());
+
+    if (method == "POST") {
+        oauthRequest->setHttpMethod(KQOAuthRequest::POST);
+    } else {
+        oauthRequest->setHttpMethod(KQOAuthRequest::GET);
+    }
+
+    if (params.size() > 0) {
+        KQOAuthParameters parameters;
+        QPair<QString, QString> pair;
+        foreach(pair, params) {
+            QString key = pair.first;
+            QString val = pair.second;
+            parameters.insert(key, val);
+        }
+        oauthRequest->setAdditionalParameters(parameters);
+    }
+
+    connect(oauthManager, SIGNAL(requestReady(QByteArray)), this, SLOT(onApiResponse(QByteArray)));
     oauthManager->executeRequest(oauthRequest);
 }

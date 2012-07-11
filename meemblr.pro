@@ -44,7 +44,8 @@ SOURCES += main.cpp \
     kqoauth/kqoauthutils.cpp \
     kqoauth/kqoauthrequest_xauth.cpp \
     kqoauth/kqoauthrequest_1.cpp \
-    kqoauth/kqoauthauthreplyserver.cpp
+    kqoauth/kqoauthauthreplyserver.cpp \
+    tumblrapi.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -80,6 +81,7 @@ HEADERS += \
     kqoauth/kqoauthmanager_p.h \
     kqoauth/kqoauthglobals.h \
     kqoauth/kqoauthauthreplyserver_p.h \
-    kqoauth/kqoauthauthreplyserver.h
+    kqoauth/kqoauthauthreplyserver.h \
+    tumblrapi.h
 
 RESOURCES +=

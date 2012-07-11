@@ -4,17 +4,10 @@
 #include <QObject>
 #include <QString>
 #include <QDebug>
-#include <QStringList>
-#include <QMap>
 #include <QUrl>
-#include <QList>
+#include <settings.h>
 #include <QPair>
-#include <QCryptographicHash>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QNetworkAccessManager>
-#include <QTime>
-#include <QtAlgorithms>
+#include <QList>
 
 #include <kqoauth/kqoauthmanager.h>
 #include <kqoauth/kqoauthrequest.h>
@@ -31,7 +24,9 @@ class Oauth : public QObject
 public:
     Oauth(QObject *parent = 0);
     Q_INVOKABLE void startAuthentication(QString username);
-    Q_INVOKABLE void testCall(QString test);
+    void testCall(QString test);
+    void setSettings(Settings *settings);
+    void callApi(QUrl url, QList< QPair<QString, QString> >, QString method);
 
 
 public slots:
@@ -39,6 +34,7 @@ public slots:
     void onError(const SignOn::Error &error);
     void identityMethodsAvailable(const QStringList &);
     void onApiResponse(QByteArray response);
+    void onApiError(QByteArray response);
 
 private:
     SignOn::AuthService *authService;
@@ -46,6 +42,7 @@ private:
 
     KQOAuthManager *oauthManager;
     KQOAuthRequest *oauthRequest;
+    Settings *m_sets;
 };
 
 #endif // OAUTH_H

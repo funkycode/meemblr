@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
         Blog blog_req;
         Settings settings;
         Oauth oauth;
+        oauth.setSettings(&settings);
 
 
         /* DEBUG VALUES */
